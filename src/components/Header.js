@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   appBar: {
     background: '#282828',
   },
@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
   },
-}));
+});
 
-export default function ButtonAppBar() {
+export default function Header() {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,10 @@ export default function ButtonAppBar() {
       <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <Typography variant='h6' className={classes.title}>
-            Welcome 🦊
+            Welcome{' '}
+            <span role='img' aria-label='fox'>
+              🦊
+            </span>
           </Typography>
         </Toolbar>
       </AppBar>
