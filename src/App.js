@@ -3,9 +3,19 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import ItemList from './components/ItemList';
+import Graph from './components/Graph';
 import './App.css';
 
-const initialState = [{ id: 1, habit: 'Habit #1' }];
+const initialState = [
+  {
+    id: 0,
+    habit: 'Habit #1',
+    lastOnline: null,
+    graph: {
+      result: [4, 4, 1, 1, 2, 1, 2, 1, 4, 1],
+    },
+  },
+];
 
 function App() {
   const theme = useMemo(
@@ -26,7 +36,7 @@ function App() {
           <ItemList items={initialState} />
         </Route>
         <Route exact path='/habit/:habitId'>
-          <h1>Habit</h1>
+          <Graph items={initialState} />
         </Route>
       </Switch>
     </ThemeProvider>
