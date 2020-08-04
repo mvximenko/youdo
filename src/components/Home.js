@@ -66,7 +66,7 @@ export default function ItemList({ items, setState }) {
 
   return (
     <>
-      <Header heading={'Welcome'} />
+      <Header heading='Welcome' />
       <List component='nav'>
         {items.map((item) => (
           <Item
