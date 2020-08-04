@@ -34,7 +34,7 @@ export default function Graph({ items }) {
 
   return (
     <div className={classes.container}>
-      {items[habitId].graph.result.map((item, index) => (
+      {items[habitId].graph.map((item, index) => (
         <div
           key={index}
           className={`${classes.item} ${classes[`color${item}`]}`}

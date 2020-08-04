@@ -11,6 +11,7 @@ const useStyles = makeStyles({
   title: {
     width: '100%',
     textAlign: 'center',
+    userSelect: 'none',
   },
 });
 

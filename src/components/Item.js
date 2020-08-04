@@ -36,12 +36,12 @@ export default function ListDividers({ id, habit }) {
         <Dialog open={open} onClick={(e) => handleClick(e, false)}>
           <DialogTitle id={id}>Delete {habit}?</DialogTitle>
           <DialogActions>
-            <Button onClick={(e) => handleClick(e, false)}>NO</Button>
-            <Button onClick={(e) => handleClick(e, false)}>YES</Button>
+            <Button onClick={(e) => handleClick(e, false)}>Cancel</Button>
+            <Button onClick={(e) => handleClick(e, false)}>Confirm</Button>
           </DialogActions>
         </Dialog>
       </ListItem>
-      <Divider className={classes.devider} />
+      <Divider />
     </Link>
   );
 }
