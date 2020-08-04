@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Header from './Header';
 
 const useStyles = makeStyles({
   container: {
@@ -33,13 +34,16 @@ export default function Graph({ items }) {
   const { habitId } = useParams();
 
   return (
-    <div className={classes.container}>
-      {items[habitId].graph.map((item, index) => (
-        <div
-          key={index}
-          className={`${classes.item} ${classes[`color${item}`]}`}
-        ></div>
-      ))}
-    </div>
+    <>
+      <Header heading={items[habitId].habit} />
+      <div className={classes.container}>
+        {items[habitId].graph.map((item, index) => (
+          <div
+            key={index}
+            className={`${classes.item} ${classes[`color${item}`]}`}
+          ></div>
+        ))}
+      </div>
+    </>
   );
 }

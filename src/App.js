@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
-import Header from './components/Header';
 import Home from './components/Home';
 import Graph from './components/Graph';
 import './App.css';
@@ -10,12 +9,13 @@ const initialState = [
   {
     id: 0,
     habit: 'Habit #1',
-    lastOnline: null,
+    day: null,
     graph: [4, 4, 1, 1, 2, 1, 2, 1, 4, 1],
   },
 ];
 
 function App() {
+  const [state, setState] = useState(initialState);
   const theme = useMemo(
     () =>
       createMuiTheme({
@@ -28,13 +28,12 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <Switch>
         <Route exact path='/'>
-          <Home items={initialState} />
+          <Home items={state} setState={setState} />
         </Route>
         <Route exact path='/habit/:habitId'>
-          <Graph items={initialState} />
+          <Graph items={state} />
         </Route>
       </Switch>
     </ThemeProvider>

@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Header() {
+export default function Header({ heading }) {
   const classes = useStyles();
 
   return (
@@ -23,7 +23,7 @@ export default function Header() {
       <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <Typography variant='h6' className={classes.title}>
-            Welcome{' '}
+            {heading}{' '}
             <span role='img' aria-label='fox'>
               🦊
             </span>

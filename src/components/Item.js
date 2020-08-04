@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ListDividers({ id, habit }) {
+export default function ListDividers({ id, habit, handleDelete }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -34,10 +34,17 @@ export default function ListDividers({ id, habit }) {
           <ClearIcon />
         </Button>
         <Dialog open={open} onClick={(e) => handleClick(e, false)}>
-          <DialogTitle id={id}>Delete {habit}?</DialogTitle>
+          <DialogTitle id={id}>Delete "{habit}"?</DialogTitle>
           <DialogActions>
             <Button onClick={(e) => handleClick(e, false)}>Cancel</Button>
-            <Button onClick={(e) => handleClick(e, false)}>Confirm</Button>
+            <Button
+              onClick={(e) => {
+                handleDelete(id);
+                handleClick(e, false);
+              }}
+            >
+              Confirm
+            </Button>
           </DialogActions>
         </Dialog>
       </ListItem>
