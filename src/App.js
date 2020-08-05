@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import React, { useMemo } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import useLocalStorage from './hooks/useLocalStorage';
 import Home from './components/Home';
 import Graph from './components/Graph';
 import './App.css';
@@ -15,7 +16,7 @@ const initialState = [
 ];
 
 function App() {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useLocalStorage('state', initialState);
   const theme = useMemo(
     () =>
       createMuiTheme({
