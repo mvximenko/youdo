@@ -34,7 +34,7 @@ function App() {
           <Home items={state} setState={setState} />
         </Route>
         <Route exact path='/habit/:habitId'>
-          <Graph items={state} />
+          <Graph items={state} setState={setState} />
         </Route>
       </Switch>
     </ThemeProvider>

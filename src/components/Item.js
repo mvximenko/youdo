@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ListDividers({ id, habit, handleDelete }) {
+export default function Item({ id, habit, handleDelete }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 

@@ -37,7 +37,7 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-export default function ItemList({ items, setState }) {
+export default function Home({ items, setState }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
