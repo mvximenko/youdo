@@ -56,22 +56,24 @@ export default function Home({ items, setState }) {
   };
 
   const addItem = (habit) => {
+    const d = new Date();
+    const date = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
+    setState([...items, { habit, day: 0, graph: [0], date }]);
     handleClose();
-    setState([...items, { id: items.length, habit, day: null, graph: [] }]);
   };
 
   const deleteItem = (index) => {
-    setState(items.filter((item) => item.id !== index));
+    setState([...items.slice(0, index), ...items.slice(index + 1)]);
   };
 
   return (
     <>
       <Header heading='Welcome' />
       <List component='nav'>
-        {items.map((item) => (
+        {items.map((item, index) => (
           <Item
-            key={item.id}
-            id={item.id}
+            key={index}
+            id={index}
             habit={item.habit}
             handleDelete={deleteItem}
           />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -46,11 +46,27 @@ export default function Graph({ items, setState }) {
   };
 
   const pickColor = (number) => {
-    const state = [...items];
+    const state = JSON.parse(localStorage.getItem('state'));
     state[habitId].graph[state[habitId].graph.length - 1] = number;
     setState(state);
     handleClose();
   };
+
+  useEffect(() => {
+    const d1 = new Date(items[habitId].date);
+    const d2 = new Date();
+    const days = Math.floor((d2.getTime() - d1.getTime()) / (1000 * 3600 * 24));
+
+    if (items[habitId].day !== days) {
+      const data = JSON.parse(localStorage.getItem('state'));
+      const state = data[habitId];
+      for (let i = 0; i < days - state.day; i++) {
+        state.graph.push(0);
+      }
+      state.day = days;
+      setState(data);
+    }
+  }, [items, habitId, setState]);
 
   return (
     <>
