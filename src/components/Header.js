@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,11 +27,7 @@ const useStyles = makeStyles({
 
 export default function Header({ heading }) {
   const classes = useStyles();
-  const [animal, setAnimal] = useState({});
-
-  useMemo(() => {
-    setAnimal(animals[Math.floor(Math.random() * 7)]);
-  }, []);
+  const [animal] = useState(animals[Math.floor(Math.random() * 7)]);
 
   return (
     <AppBar position='static' className={classes.appBar}>

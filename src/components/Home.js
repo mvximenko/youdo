@@ -43,22 +43,22 @@ export default function Home({ items, setState }) {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = (event) => {
-    setInput(event.target.value);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleChange = (event) => setInput(event.target.value);
 
   const addItem = (habit) => {
     const d = new Date();
     const date = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
-    setState([...items, { habit, day: 0, graph: [0], date }]);
+    const day = (d.getDay() + 6) % 7;
+
+    let graph = [];
+    for (let i = 0; i < day; i++) {
+      graph.push(5);
+    }
+    graph.push(0);
+
+    setState([...items, { habit, day: 0, graph, date }]);
     handleClose();
   };
 

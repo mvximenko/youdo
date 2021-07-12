@@ -13,6 +13,9 @@ const useStyles = makeStyles({
     gridTemplateColumns: 'repeat(7, 1fr)',
     gridGap: '5px',
   },
+  days: {
+    textAlign: 'center',
+  },
   item: {
     display: 'block',
     background: 'grey',
@@ -30,6 +33,9 @@ const useStyles = makeStyles({
   color4: {
     background: '#196127',
   },
+  color5: {
+    background: '#1d1d1d',
+  },
 });
 
 export default function Graph({ items, setState }) {
@@ -37,13 +43,8 @@ export default function Graph({ items, setState }) {
   const { habitId } = useParams();
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const pickColor = (number) => {
     const state = JSON.parse(localStorage.getItem('state'));
@@ -71,6 +72,16 @@ export default function Graph({ items, setState }) {
   return (
     <>
       <Header heading={items[habitId].habit} />
+      <div className={`${classes.container} ${classes.days}`}>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+        <div>Sun</div>
+      </div>
+
       <div className={classes.container}>
         {items[habitId].graph.map((item, index) => (
           <div
