@@ -21,6 +21,9 @@ const useStyles = makeStyles({
     background: 'grey',
     paddingTop: '100%',
   },
+  marginBottom: {
+    marginBottom: '15px',
+  },
   color1: {
     background: '#c6e48b',
   },
@@ -109,7 +112,7 @@ export default function Graph({ items, setState }) {
             onClick={() => pickColor(3)}
           ></div>
           <div
-            className={`${classes.item} ${classes.color4}`}
+            className={`${classes.item} ${classes.color4} ${classes.marginBottom}`}
             onClick={() => pickColor(4)}
           ></div>
         </DialogContent>
