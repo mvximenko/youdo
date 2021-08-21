@@ -45,13 +45,18 @@ export default function Graph({ items, setState }) {
   const classes = useStyles();
   const { habitId } = useParams();
   const [open, setOpen] = useState(false);
+  const [square, setSquare] = useState(0);
 
-  const handleClickOpen = () => setOpen(true);
+  const handleClickOpen = (index) => {
+    setSquare(index);
+    setOpen(true);
+  };
+
   const handleClose = () => setOpen(false);
 
   const pickColor = (number) => {
     const state = JSON.parse(localStorage.getItem('state'));
-    state[habitId].graph[state[habitId].graph.length - 1] = number;
+    state[habitId].graph[square] = number;
     setState(state);
     handleClose();
   };
@@ -90,8 +95,9 @@ export default function Graph({ items, setState }) {
           <div
             key={index}
             className={`${classes.item} ${classes[`color${item}`]}`}
-            {...(index === items[habitId].graph.length - 1 && {
-              onClick: handleClickOpen,
+            {...((index === items[habitId].graph.length - 1 ||
+              index === items[habitId].graph.length - 2) && {
+              onClick: () => handleClickOpen(index),
             })}
           ></div>
         ))}

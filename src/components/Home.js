@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Item from './Item';
@@ -9,6 +8,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import AddIcon from '@material-ui/icons/Add';
 import Header from './Header';
+import useInput from '../hooks/useInput';
+import useToggle from '../hooks/useToggle';
 
 const useStyles = makeStyles({
   button: {
@@ -39,13 +40,8 @@ const CssTextField = withStyles({
 
 export default function Home({ items, setState }) {
   const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
-  const [input, setInput] = useState('');
-
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleChange = (event) => setInput(event.target.value);
+  const [input, updateInput] = useInput('');
+  const [open, toggleOpen] = useToggle(false);
 
   const addItem = (habit) => {
     const d = new Date();
@@ -59,11 +55,17 @@ export default function Home({ items, setState }) {
     graph.push(0);
 
     setState([...items, { habit, day: 0, graph, date }]);
-    handleClose();
+    toggleOpen();
   };
 
   const deleteItem = (index) => {
     setState([...items.slice(0, index), ...items.slice(index + 1)]);
+  };
+
+  const editItem = (index, habit) => {
+    const newItems = [...items];
+    newItems[index].habit = habit;
+    setState(newItems);
   };
 
   return (
@@ -75,20 +77,21 @@ export default function Home({ items, setState }) {
             key={index}
             id={index}
             habit={item.habit}
-            handleDelete={deleteItem}
+            deleteItem={deleteItem}
+            editItem={editItem}
           />
         ))}
       </List>
 
       <Button
         variant='outlined'
-        onClick={handleClickOpen}
+        onClick={toggleOpen}
         className={classes.button}
       >
         <AddIcon className={classes.icon} />
       </Button>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={toggleOpen}>
         <DialogContent>
           <CssTextField
             autoFocus
@@ -97,11 +100,11 @@ export default function Home({ items, setState }) {
             label='New Habit'
             type='text'
             fullWidth
-            onChange={handleChange}
+            onChange={updateInput}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={toggleOpen}>Cancel</Button>
           <Button onClick={() => addItem(input)}>Confirm</Button>
         </DialogActions>
       </Dialog>
