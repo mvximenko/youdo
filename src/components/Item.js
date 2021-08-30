@@ -35,13 +35,15 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
+const initialState = {
+  isEdit: false,
+  isDelete: false,
+};
+
 export default function Item({ id, habit, deleteItem, editItem }) {
   const classes = useStyles();
-  const [input, updateInput] = useInput('');
-  const [{ isEdit, isDelete }, setState] = useState({
-    isEdit: false,
-    isDelete: false,
-  });
+  const [input, updateInput, resetInput] = useInput('');
+  const [{ isEdit, isDelete }, setState] = useState(initialState);
 
   const handleClick = (e, isOpen = false) => {
     e.preventDefault();
@@ -51,20 +53,19 @@ export default function Item({ id, habit, deleteItem, editItem }) {
         [e.currentTarget.name]: isOpen,
       }));
     } else {
-      setState({
-        isEdit: false,
-        isDelete: false,
-      });
+      setState(initialState);
     }
   };
 
   const handleDelete = () => {
+    setState(initialState);
     deleteItem(id);
   };
 
   const handleEdit = (e) => {
     handleClick(e);
     editItem(id, input);
+    resetInput();
   };
 
   return (
@@ -100,7 +101,7 @@ export default function Item({ id, habit, deleteItem, editItem }) {
             autoFocus
             margin='dense'
             id='name'
-            label='Edit Habit'
+            label='Edit habit'
             type='text'
             fullWidth
             onChange={updateInput}
@@ -117,7 +118,10 @@ export default function Item({ id, habit, deleteItem, editItem }) {
       </Dialog>
 
       <Dialog open={isDelete} onClose={handleClick}>
-        <DialogTitle>Delete "{habit}"?</DialogTitle>
+        <DialogTitle>Delete habit?</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this habit?
+        </DialogContent>
         <DialogActions>
           <Button name='isDelete' onClick={handleClick}>
             Cancel

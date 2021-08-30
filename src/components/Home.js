@@ -40,7 +40,7 @@ const CssTextField = withStyles({
 
 export default function Home({ items, setState }) {
   const classes = useStyles();
-  const [input, updateInput] = useInput('');
+  const [input, updateInput, resetInput] = useInput('');
   const [open, toggleOpen] = useToggle(false);
 
   const addItem = (habit) => {
@@ -54,8 +54,9 @@ export default function Home({ items, setState }) {
     }
     graph.push(0);
 
-    setState([...items, { habit, day: 0, graph, date }]);
     toggleOpen();
+    setState([...items, { habit, day: 0, graph, date }]);
+    resetInput();
   };
 
   const deleteItem = (index) => {
@@ -97,7 +98,7 @@ export default function Home({ items, setState }) {
             autoFocus
             margin='dense'
             id='name'
-            label='New Habit'
+            label='New habit'
             type='text'
             fullWidth
             onChange={updateInput}
