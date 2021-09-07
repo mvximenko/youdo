@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Header from './Header';
+import { State } from '../hooks/useLocalStorage';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<Theme>({
   container: {
     margin: '10px',
     display: 'grid',
@@ -41,21 +42,31 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Graph({ items, setState }) {
+interface Props {
+  items: State[];
+  setState: React.Dispatch<State[]>;
+}
+
+export default function Graph({ items, setState }: Props) {
   const classes = useStyles();
-  const { habitId } = useParams();
+
+  const { id } = useParams<{ id: string }>();
+  const habitId = +id;
+
   const [open, setOpen] = useState(false);
   const [square, setSquare] = useState(0);
 
-  const handleClickOpen = (index) => {
+  const handleClickOpen = (index: number) => {
     setSquare(index);
     setOpen(true);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  const pickColor = (number) => {
-    const state = JSON.parse(localStorage.getItem('state'));
+  const pickColor = (number: number) => {
+    const state = JSON.parse(localStorage.getItem('state')!);
     state[habitId].graph[square] = number;
     setState(state);
     handleClose();
@@ -67,7 +78,7 @@ export default function Graph({ items, setState }) {
     const days = Math.floor((d2.getTime() - d1.getTime()) / (1000 * 3600 * 24));
 
     if (items[habitId].day !== days) {
-      const data = JSON.parse(localStorage.getItem('state'));
+      const data = JSON.parse(localStorage.getItem('state')!);
       const state = data[habitId];
       for (let i = 0; i < days - state.day; i++) {
         state.graph.push(0);
@@ -91,7 +102,7 @@ export default function Graph({ items, setState }) {
       </div>
 
       <div className={classes.container}>
-        {items[habitId].graph.map((item, index) => (
+        {items[habitId].graph.map((item: number, index) => (
           <div
             key={index}
             className={`${classes.item} ${classes[`color${item}`]}`}
@@ -99,7 +110,7 @@ export default function Graph({ items, setState }) {
               index === items[habitId].graph.length - 2) && {
               onClick: () => handleClickOpen(index),
             })}
-          ></div>
+          />
         ))}
       </div>
       <Dialog open={open}>
@@ -108,19 +119,19 @@ export default function Graph({ items, setState }) {
           <div
             className={`${classes.item} ${classes.color1}`}
             onClick={() => pickColor(1)}
-          ></div>
+          />
           <div
             className={`${classes.item} ${classes.color2}`}
             onClick={() => pickColor(2)}
-          ></div>
+          />
           <div
             className={`${classes.item} ${classes.color3}`}
             onClick={() => pickColor(3)}
-          ></div>
+          />
           <div
             className={`${classes.item} ${classes.color4} ${classes.marginBottom}`}
             onClick={() => pickColor(4)}
-          ></div>
+          />
         </DialogContent>
       </Dialog>
     </>

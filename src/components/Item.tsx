@@ -35,17 +35,27 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
+interface Props {
+  id: number;
+  habit: string;
+  deleteItem: (id: number) => void;
+  editItem: (id: number, input: string) => void;
+}
+
 const initialState = {
   isEdit: false,
   isDelete: false,
 };
 
-export default function Item({ id, habit, deleteItem, editItem }) {
+export default function Item({ id, habit, deleteItem, editItem }: Props) {
   const classes = useStyles();
   const [input, updateInput, resetInput] = useInput('');
   const [{ isEdit, isDelete }, setState] = useState(initialState);
 
-  const handleClick = (e, isOpen = false) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    isOpen = false
+  ) => {
     e.preventDefault();
     if (e.currentTarget.name) {
       setState((prevState) => ({
@@ -57,12 +67,16 @@ export default function Item({ id, habit, deleteItem, editItem }) {
     }
   };
 
+  const handleClose = () => {
+    setState(initialState);
+  };
+
   const handleDelete = () => {
     setState(initialState);
     deleteItem(id);
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     handleClick(e);
     editItem(id, input);
     resetInput();
@@ -95,7 +109,7 @@ export default function Item({ id, habit, deleteItem, editItem }) {
         <Divider />
       </Link>
 
-      <Dialog open={isEdit} onClose={handleClick}>
+      <Dialog open={isEdit} onClose={handleClose}>
         <DialogContent>
           <CssTextField
             autoFocus
@@ -117,7 +131,7 @@ export default function Item({ id, habit, deleteItem, editItem }) {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={isDelete} onClose={handleClick}>
+      <Dialog open={isDelete} onClose={handleClose}>
         <DialogTitle>Delete habit?</DialogTitle>
         <DialogContent>
           Are you sure you want to delete this habit?

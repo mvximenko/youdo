@@ -25,7 +25,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Header({ heading }) {
+interface Props {
+  heading: string;
+}
+
+export default function Header({ heading }: Props) {
   const classes = useStyles();
   const [animal] = useState(animals[Math.floor(Math.random() * 7)]);
 

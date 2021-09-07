@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Header from './Header';
 import useInput from '../hooks/useInput';
 import useToggle from '../hooks/useToggle';
+import { State } from '../hooks/useLocalStorage';
 
 const useStyles = makeStyles({
   button: {
@@ -38,12 +39,17 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-export default function Home({ items, setState }) {
+interface Props {
+  items: State[];
+  setState: React.Dispatch<State[]>;
+}
+
+export default function Home({ items, setState }: Props) {
   const classes = useStyles();
   const [input, updateInput, resetInput] = useInput('');
   const [open, toggleOpen] = useToggle(false);
 
-  const addItem = (habit) => {
+  const addItem = (habit: string) => {
     const d = new Date();
     const date = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
     const day = (d.getDay() + 6) % 7;
@@ -59,11 +65,11 @@ export default function Home({ items, setState }) {
     resetInput();
   };
 
-  const deleteItem = (index) => {
+  const deleteItem = (index: number) => {
     setState([...items.slice(0, index), ...items.slice(index + 1)]);
   };
 
-  const editItem = (index, habit) => {
+  const editItem = (index: number, habit: string) => {
     const newItems = [...items];
     newItems[index].habit = habit;
     setState(newItems);
@@ -73,7 +79,7 @@ export default function Home({ items, setState }) {
     <>
       <Header heading='Welcome' />
       <List component='nav'>
-        {items.map((item, index) => (
+        {items.map((item: State, index) => (
           <Item
             key={index}
             id={index}

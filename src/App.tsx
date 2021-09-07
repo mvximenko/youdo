@@ -8,7 +8,7 @@ import Graph from './components/Graph';
 import NotMobile from './components/NotMobile';
 import './App.css';
 
-function App() {
+export default function App() {
   const [state, setState] = useLocalStorage('state', []);
   const { width } = useWindowDimensions();
 
@@ -32,7 +32,7 @@ function App() {
             <Route exact path='/'>
               <Home items={state} setState={setState} />
             </Route>
-            <Route exact path='/habit/:habitId'>
+            <Route exact path='/habit/:id'>
               <Graph items={state} setState={setState} />
             </Route>
           </Switch>
@@ -41,5 +41,3 @@ function App() {
     </>
   );
 }
-
-export default App;
