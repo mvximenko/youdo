@@ -51,6 +51,7 @@ export default function Home({ items, setState }: Props) {
 
   const addItem = (habit: string) => {
     const d = new Date();
+    const id = d.getTime();
     const date = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
     const day = (d.getDay() + 6) % 7;
 
@@ -61,7 +62,7 @@ export default function Home({ items, setState }: Props) {
     graph.push(0);
 
     toggleOpen();
-    setState([...items, { habit, day: 0, graph, date }]);
+    setState([...items, { id, habit, day: 0, graph, date }]);
     resetInput();
   };
 
@@ -81,7 +82,7 @@ export default function Home({ items, setState }: Props) {
       <List component='nav'>
         {items.map((item: State, index) => (
           <Item
-            key={index}
+            key={item.id}
             id={index}
             habit={item.habit}
             deleteItem={deleteItem}

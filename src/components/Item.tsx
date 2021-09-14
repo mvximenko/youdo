@@ -62,18 +62,11 @@ export default function Item({ id, habit, deleteItem, editItem }: Props) {
         ...prevState,
         [e.currentTarget.name]: isOpen,
       }));
-    } else {
-      setState(initialState);
     }
   };
 
   const handleClose = () => {
     setState(initialState);
-  };
-
-  const handleDelete = () => {
-    setState(initialState);
-    deleteItem(id);
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -140,7 +133,7 @@ export default function Item({ id, habit, deleteItem, editItem }: Props) {
           <Button name='isDelete' onClick={handleClick}>
             Cancel
           </Button>
-          <Button name='isDelete' onClick={handleDelete}>
+          <Button name='isDelete' onClick={() => deleteItem(id)}>
             Confirm
           </Button>
         </DialogActions>

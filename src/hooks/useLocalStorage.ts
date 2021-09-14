@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export interface State {
+  id: number;
   habit: string;
   day: number;
   graph: number[];
@@ -13,8 +14,8 @@ export type UseLocalStorage = (
 ) => [State[], React.Dispatch<State[]>];
 
 const useLocalStorage: UseLocalStorage = (key, defaultVal = []) => {
-  const [state, setState] = useState(() =>
-    JSON.parse(localStorage.getItem(key) || String(defaultVal))
+  const [state, setState] = useState<State[]>(
+    () => JSON.parse(localStorage.getItem(key)!) || defaultVal
   );
 
   useEffect(() => {
