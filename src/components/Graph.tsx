@@ -113,7 +113,7 @@ export default function Graph({ items, setState }: Props) {
           />
         ))}
       </div>
-      <Dialog open={open}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Pick a square</DialogTitle>
         <DialogContent>
           <div
