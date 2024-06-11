@@ -7,6 +7,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Header from './Header';
 import { State } from '../hooks/useLocalStorage';
 
+interface Props {
+  items: State[];
+  setState: React.Dispatch<State[]>;
+}
+
+interface ColorClasses {
+  [key: string]: {
+    background: (props: { colors: string[] }) => string;
+  };
+}
+
+const defaultColors = ['grey', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
+const moodColors = ['grey', '#dc2626', '#fcd34d', '#4ade80', '#22d3ee'];
+
+const makeColorClasses = () => {
+  const classes: ColorClasses = {};
+
+  for (let i = 0; i < defaultColors.length; i++) {
+    classes[`color${i}`] = {
+      background: ({ colors }) => colors[i],
+    };
+  }
+
+  return classes;
+};
+
 const useStyles = makeStyles<Theme>({
   container: {
     margin: '10px',
@@ -19,39 +45,23 @@ const useStyles = makeStyles<Theme>({
   },
   item: {
     display: 'block',
-    background: 'grey',
     paddingTop: '100%',
   },
   marginBottom: {
     marginBottom: '15px',
   },
-  color1: {
-    background: '#c6e48b',
-  },
-  color2: {
-    background: '#7bc96f',
-  },
-  color3: {
-    background: '#239a3b',
-  },
-  color4: {
-    background: '#196127',
-  },
-  color5: {
-    background: '#1d1d1d',
-  },
+  ...makeColorClasses(),
 });
 
-interface Props {
-  items: State[];
-  setState: React.Dispatch<State[]>;
-}
-
 export default function Graph({ items, setState }: Props) {
-  const classes = useStyles();
-
   const { id } = useParams<{ id: string }>();
   const habitId = +id;
+
+  const classes = useStyles({
+    colors: items[habitId].habit.toUpperCase().includes('MOOD')
+      ? moodColors
+      : defaultColors,
+  });
 
   const [open, setOpen] = useState(false);
   const [square, setSquare] = useState(0);
@@ -105,7 +115,7 @@ export default function Graph({ items, setState }: Props) {
         {items[habitId].graph.map((item: number, index) => (
           <div
             key={index}
-            className={`${classes.item} ${classes[`color${item}`]}`}
+            className={`${classes.item} ${classes[`color${item}`] || ''}`}
             {...((index === items[habitId].graph.length - 1 ||
               index === items[habitId].graph.length - 2) && {
               onClick: () => handleClickOpen(index),
